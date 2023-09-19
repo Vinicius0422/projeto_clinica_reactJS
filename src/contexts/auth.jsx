@@ -1,6 +1,6 @@
-import { useState, createContext, useEffect } from 'react'
+import { useState, createContext, useEffect, useCallback } from 'react'
 import { auth, db } from '../services/firebaseConnection'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom';
 
@@ -10,8 +10,19 @@ function AuthProvider({children}){
 
     const navigate = useNavigate();
 
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true);
     const [loadingAuth, setLoadingAuth] = useState(false);
+
+    useEffect(()=>{
+        const storageUser = localStorage.getItem('@user')
+
+        if(storageUser){
+            setUser(JSON.parse(storageUser))
+            setLoading(false)
+        }
+        setLoading(false)
+    }, [])
 
     async function signIn(email, password){
         setLoadingAuth(true)
@@ -32,6 +43,7 @@ function AuthProvider({children}){
 
             setUser(data)
             setLoadingAuth(false)
+            handleStorage(data);
             navigate("/home")
         })
         .catch((error) => {
@@ -40,12 +52,25 @@ function AuthProvider({children}){
 
     }
 
+    function handleStorage(data){
+        localStorage.setItem('@user', JSON.stringify(data))
+    }
+
+
+    async function logout(){
+        await signOut(auth);
+        localStorage.removeItem('@user')
+        setUser(null)
+    }
+
     return(
         <AuthContext.Provider
             value={{
                 signed: !!user,
                 user,
-                signIn
+                signIn,
+                logout,
+                loading
             }}
         >
             {children}

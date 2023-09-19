@@ -12,7 +12,7 @@ export default function SignIn(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { signIn } = useContext(AuthContext)
+    const { signIn, user } = useContext(AuthContext)
 
 
     function handleSubmit(e){
