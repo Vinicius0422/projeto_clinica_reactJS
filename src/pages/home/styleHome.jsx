@@ -1,7 +1,25 @@
 import styled from "styled-components";
 
+export const HomeArea = styled.div`
+    display: flex;
+`;
+
+export const HomeContent = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
 export const BtnLogOut = styled.button`
-    margin-left: 300px;
+    position: absolute;
+    right: 50px;
+    top: 78px;
+    padding: 10px 25px;
+    border-radius: 5px;
+    border: none;
+    background-color: #01314B;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
 `;
 
 export const Title = styled.div`

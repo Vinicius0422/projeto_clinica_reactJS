@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 
 export const Container = styled.header`
@@ -32,7 +33,7 @@ export const BtnArea = styled.div`
     font-size: 13px;
     height: 100%;
 
-    a{
+    a, button{
         text-decoration: none;
         color: #000;
         background-color: #fff;
@@ -40,12 +41,52 @@ export const BtnArea = styled.div`
         padding: 10px 15px;
         border-radius: 5px;
         width: 100%;
+        cursor: pointer;
+        border: none;
         text-align: center;
         transition: .5s;
+    }
+
+    a:hover, button:hover{
+        background-color: #000;
+        color: #fff;
+    }
+`;
+
+export const BtnsArea = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 0;
+    align-items: center;
+    width: 160px;
+    font-size: 13px;
+    height: 100%;
+
+    a{
+        margin-bottom: 25px;
+        padding: 10px 15px;
+        border-radius: 5px;
+        width: 100%;
+        cursor: pointer;
+        border: none;
+        text-align: center;
+        transition: .5s;
+        text-decoration: none;
     }
 
     a:hover{
         background-color: #000;
         color: #fff;
     }
+`;
+
+export const SelectedBtn = styled(Link)`
+        background-color: rgba(0,0,0, 0.8);
+        color: #fff;
+`;
+
+export const NotSelectedBtn = styled(Link)`
+        background-color: #fff;
+        color: #000;
 `;

@@ -1,8 +1,8 @@
 import { useContext} from "react";
 import { AuthContext } from "../../contexts/auth";
 
-import Header from "../../components/Header";
-import { BtnLogOut, Title } from "./styleHome";
+import Header from "../../components/HeaderHome";
+import { BtnLogOut, HomeArea, HomeContent, Title } from "./styleHome";
 
 
 export default function Home(){
@@ -14,11 +14,13 @@ export default function Home(){
     }
 
     return(
-        <div>
+        <HomeArea>
             <Header/>
-            <Title>Página Inicial </Title>
-            <BtnLogOut onClick={handleLogout}>Sair</BtnLogOut>
-        </div>
+            <HomeContent>
+                <Title>Página Inicial </Title>
+                <BtnLogOut onClick={handleLogout}>Sair</BtnLogOut>
+            </HomeContent>
+        </HomeArea>
 
     );
 }
