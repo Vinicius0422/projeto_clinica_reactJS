@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BtnsArea, Container, Content, NotSelectedBtn, SelectedBtn } from "../../components/HeaderHome/styleHeader";
 import { ContentGeral, PacientesArea } from "../pacientes/stylePaciente";
 import {AreaCadastro, ButtonArea, Input1, Input2, Input3, Input4, Input5, Input6, Input7, Input8} from "./pacientesCadastroStyle"
@@ -18,68 +18,64 @@ export default function PacientesCadastro() {
     const [contatos, setContatos] = useState('');
     const [errors, setErrors] = useState('');
 
+
     async function validateCPFandRG(cpf, rg){
-        setErrors('')
         const listRef = collection(db, "pacientes")
-        const q = query(listRef);
-
-        const querySnapshot = await getDocs(q);
-
+        const querySnapshot = await getDocs(listRef);
+        
         const isCollectionEmpty = querySnapshot.size === 0;
-        console.log(isCollectionEmpty)
-
-        if (isCollectionEmpty === false) {
-            querySnapshot.forEach((doc) => {
-                if (doc.data().cpf === cpf && doc.data().rg === rg) {   
-                    setErrors("CPF e RG já cadastrados")
-                    return;
-                } else if (doc.data().rg === rg){
-                    setErrors("RG já cadastrado")
-                    return;
-                } else if (doc.data().cpf === cpf){
-                    setErrors("CPF já cadastrado")
-                    return;
-                }
-            })
+    
+        if (isCollectionEmpty) {
+            return;
+        }
+    
+        // Usar um loop for...of em vez de um forEach
+        for (const doc of querySnapshot.docs) {
+            if (doc.data().cpf === cpf && doc.data().rg === rg) {   
+                throw new Error("CPF e RG já cadastrados!")
+            } else if (doc.data().rg === rg){
+                throw new Error("RG já cadastrado")
+            } else if (doc.data().cpf === cpf){
+                throw new Error("CPF já cadastrado")
+            }
         }
 
-        return;
     }
 
-    async function handleCadastro(e){
+    const handleCadastro = async (e) => {
         e.preventDefault();
         if(nome === '' || cpf === '' || endereco === '' || cep === '' || bairro === '' || cidade === '' || contatos === ''){
             toast.error("Favor preencha todos os campos")
             return;
         }
 
-        validateCPFandRG(cpf, rg)
-
-        if(errors){
-            toast.error(errors)
-            return;
+        try{
+            await validateCPFandRG(cpf, rg);
+            await addDoc(collection(db, "pacientes"), {
+                nome: nome,
+                cpf: cpf,
+                rg: rg,
+                endereco: endereco,
+                cep: cep,
+                bairro: bairro,
+                cidade: cidade,
+                contatos: contatos,
+            })
+            
+            setNome('')
+            setCpf('')
+            setRg('')
+            setEndereco('')
+            setCep('')
+            setBairo('')
+            setCidade('')
+            setContatos('')
+            toast.success("Paciente cadastrado com sucesso")
+        } catch(erro){
+            toast.error(erro.message)
         }
-        
-        await addDoc(collection(db, "pacientes"), {
-            nome: nome,
-            cpf: cpf,
-            rg: rg,
-            endereco: endereco,
-            cep: cep,
-            bairro: bairro,
-            cidade: cidade,
-            contatos: contatos,
-        })
-        
-        setNome('')
-        setCpf('')
-        setRg('')
-        setEndereco('')
-        setCep('')
-        setBairo('')
-        setCidade('')
-        setContatos('')
-        toast.success("Paciente cadastrado com sucesso")
+
+
 
     }
 
@@ -100,7 +96,7 @@ export default function PacientesCadastro() {
                     <form onSubmit={(e) => handleCadastro(e)}>
                     <Input1>
                     <label>Nome Completo</label>
-                    <input type="text" placeholder="Digite o nome" value={nome} onChange={(e) => setNome(e.target.value)} on/>
+                    <input type="text" placeholder="Digite o nome" value={nome} onChange={(e) => setNome(e.target.value)}/>
                     </Input1>
                     <Input2>
                     <label>CPF</label>
@@ -135,7 +131,6 @@ export default function PacientesCadastro() {
                     <button type="submit">Salvar</button>
                     </ButtonArea>
                     </form>
-  
                 </AreaCadastro>
 
             </ContentGeral>
