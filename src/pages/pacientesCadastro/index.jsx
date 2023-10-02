@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BtnsArea, Container, Content, NotSelectedBtn, SelectedBtn } from "../../components/HeaderHome/styleHeader";
 import { ContentGeral, PacientesArea } from "../pacientes/stylePaciente";
-import {AreaCadastro, ButtonArea, Input1, Input2, Input3, Input4, Input5, Input6, Input7, Input8} from "./pacientesCadastroStyle"
+import {AreaCadastro, ButtonArea, Input1, Input2, Input3, Input4} from "./pacientesCadastroStyle"
 import { toast } from "react-toastify";
-import { addDoc, collection, getDocs, query } from "firebase/firestore";
+import { addDoc, collection, getDocs} from "firebase/firestore";
 import { db } from "../../services/firebaseConnection";
 
 export default function PacientesCadastro() {
@@ -16,8 +16,6 @@ export default function PacientesCadastro() {
     const [bairro, setBairo] = useState('');
     const [cidade, setCidade] = useState('');
     const [contatos, setContatos] = useState('');
-    const [errors, setErrors] = useState('');
-
 
     async function validateCPFandRG(cpf, rg){
         const listRef = collection(db, "pacientes")
@@ -76,7 +74,6 @@ export default function PacientesCadastro() {
         }
 
 
-
     }
 
     return (
@@ -102,30 +99,30 @@ export default function PacientesCadastro() {
                     <label>CPF</label>
                     <input type="text" placeholder="Digite o CPF" value={cpf} onChange={(e) => setCpf(e.target.value)}/>
                     </Input2>
-                    <Input3>
+                    <Input2>
                     <label>RG</label>
                     <input type="text" placeholder="Digite o RG" value={rg} onChange={(e) => setRg(e.target.value)}/>
-                    </Input3>
-                    <Input4>
+                    </Input2>
+                    <Input1>
                     <label>Endereço</label>
                     <input type="text" placeholder="Digite o endereço" value={endereco} onChange={(e) => setEndereco(e.target.value)}/>
-                    </Input4>
-                    <Input5>
+                    </Input1>
+                    <Input2>
                     <label>CEP</label>
                     <input type="text" placeholder="Digite o CEP" value={cep} onChange={(e) => setCep(e.target.value)}/>
-                    </Input5>
-                    <Input6>
+                    </Input2>
+                    <Input2>
                     <label>Bairro</label>
                     <input type="text" placeholder="Digite o bairro" value={bairro} onChange={(e) => setBairo(e.target.value)}/>
-                    </Input6>
-                    <Input7>
+                    </Input2>
+                    <Input3>
                     <label>Cidade</label>
                     <input type="text" placeholder="Digite a cidade" value={cidade} onChange={(e) => setCidade(e.target.value)}/>
-                    </Input7>
-                    <Input8>
+                    </Input3>
+                    <Input4>
                     <label>Contatos</label>
                     <input type="text" placeholder="Digite os contatos" value={contatos} onChange={(e) => setContatos(e.target.value)}/>
-                    </Input8>
+                    </Input4>
 
                     <ButtonArea>
                     <button type="submit">Salvar</button>

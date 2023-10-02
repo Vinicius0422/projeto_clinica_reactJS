@@ -34,32 +34,13 @@ export const Input2 = styled.div`
     flex-direction: column;
     width: 150px;
 `;
+
 export const Input3 = styled.div`
     display: flex;
     flex-direction: column;
-    width: 150px;
-`;
-export const Input4 = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 400px;
-`;
-export const Input5 = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 150px;
-`;
-export const Input6 = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 150px;
-`;
-export const Input7 = styled.div`
-display: flex;
-    flex-direction: column;
     width: 200px;
 `;
-export const Input8 = styled.div`
+export const Input4 = styled.div`
     display: flex;
     flex-direction: column;
     width: 500px;

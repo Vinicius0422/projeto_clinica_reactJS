@@ -19,9 +19,10 @@ export default function Pacientes() {
     const [cpfIsEmpty, setCpfIsEmpty] = useState(false)
 
     const [details, setDetails] = useState(false)
+    const [id, setId] = useState()
 
 
-    async function handleSearch() {
+    async function handleSearch(cpfSearch) {
 
         const q = query(listRef);
 
@@ -39,11 +40,13 @@ export default function Pacientes() {
         querySnapshot.forEach((doc) => {
             if (doc.data().cpf === cpfSearch) {   
                 setCpfResult(doc.data())
+                setId(doc.id)
                 list.push({
                     id: doc.id
                 })
                 return;
             }
+            console.log(list)
         })
 
         if(list.length > 0){
@@ -76,7 +79,7 @@ export default function Pacientes() {
 
                     <input placeholder="Digite o CPF" value={cpfSearch} onChange={(e) => setCpfSearch(e.target.value)} />
 
-                    <button onClick={handleSearch}>Pesquisar</button>
+                    <button onClick={() => handleSearch(cpfSearch)}>Pesquisar</button>
                 
                 
                     {cpfResult && cpfIsEmpty !== true &&
@@ -86,7 +89,7 @@ export default function Pacientes() {
                                 <label>Cpf: {cpfResult.cpf}</label>
                                 <div>
                                     <FaMagnifyingGlass onClick={() => setDetails(true)} size={15} />
-                                    <FaRegEdit size={15} />
+                                    {/* <FaRegEdit size={15} /> */}
                                 </div>
                             </ResultCard>}
                     {!cpfResult && cpfIsEmpty === true && <NotResult>
@@ -95,8 +98,8 @@ export default function Pacientes() {
 
                 
                 </SearchArea>
-                {details === true && (
-                    <Modal />
+                {details && (
+                    <Modal infos={cpfResult} id={id} handleSearch={handleSearch} close={() => setDetails(!details)}/>
                 )}
             </ContentGeral>
         </PacientesArea>
