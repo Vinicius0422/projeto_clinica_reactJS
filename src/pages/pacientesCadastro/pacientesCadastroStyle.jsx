@@ -20,6 +20,7 @@ export const AreaCadastro = styled.div`
         outline: none;
         margin-right: 25px;
         margin-bottom: 25px;
+        text-transform: uppercase;
     }
 `;
 

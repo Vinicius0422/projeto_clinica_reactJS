@@ -67,6 +67,7 @@ export default function Pacientes() {
                 <Content>
                     <span>Pacientes</span>
                     <BtnsArea>
+                        <NotSelectedBtn to="/home">Home</NotSelectedBtn>
                         <SelectedBtn to="/pacientes">Procurar</SelectedBtn>
                         <NotSelectedBtn to="/pacientes/cadastro">Cadastrar</NotSelectedBtn>
                     </BtnsArea>
